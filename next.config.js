@@ -1,4 +1,3 @@
 module.exports = {
-  // reactStrictMode: true,
-  images: { domains: ['res.cloudinary.com'] },
+  webpack5: true,
 };

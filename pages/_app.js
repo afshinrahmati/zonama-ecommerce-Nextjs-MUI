@@ -1,26 +1,33 @@
-import { SnackbarProvider } from 'notistack';
-import { StoreProvider } from '../utils/Store';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { CacheProvider } from '@emotion/react';
-import createEmotionCache from '../utils/createEmotionCache';
+import 'tailwindcss/tailwind.css';
+import Head from 'next/head';
+import { CartProvider } from '@/hooks/use-shopping-cart';
+import { Header, Footer } from '@/components/index';
+import { Toaster } from 'react-hot-toast';
 
-const clientSideEmotionCache = createEmotionCache();
-
-function MyApp(props) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
+function MyApp({ Component, pageProps }) {
   return (
-    <CacheProvider value={emotionCache}>
-      <SnackbarProvider
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <StoreProvider>
-          <PayPalScriptProvider deferLoading={true}>
+    <>
+      <Head>
+        <title>
+          E-commerce store built with Next.js and Stripe checkout
+        </title>
+        <meta
+          name="description"
+          content="E-commerce store built with Next.js and Stripe checkout by Gabriel"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <CartProvider>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-grow">
             <Component {...pageProps} />
-          </PayPalScriptProvider>
-        </StoreProvider>
-      </SnackbarProvider>
-    </CacheProvider>
+          </main>
+          <Footer />
+        </div>
+      </CartProvider>
+      <Toaster />
+    </>
   );
 }
 
